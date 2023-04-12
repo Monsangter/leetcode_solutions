@@ -4,7 +4,7 @@ class Solution(object):
         :type nums: List[int]
         :rtype: bool
         """
-        if len(list(set(nums))) != len(nums):
+        if len(set(nums)) != len(nums):
             return True
 
         
