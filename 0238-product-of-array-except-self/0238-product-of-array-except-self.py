@@ -32,7 +32,7 @@ class Solution(object):
             elif cnt > 0:
                 ls1.append(0)
             elif i == 0:
-                ls1.append(ans)
+                ls1.append(0)
             else:
                 ls1.append(ans / i)
             
