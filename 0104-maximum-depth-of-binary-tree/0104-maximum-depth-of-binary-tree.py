@@ -4,7 +4,6 @@
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from collections import deque
 class Solution:
     def maxDepth(self, root: Optional[TreeNode]) -> int:
 
@@ -13,15 +12,12 @@ class Solution:
         결국 원소의 개수가중요하지 않을까?
         2로나눠지는 몫 + 1
         '''
-        if root is None:
-            return 0
-
-        queue = deque([(root, 1)])
-        while queue:
-            node, level = queue.popleft()
-            if node.left:
-                queue.append((node.left, level + 1))
-            if node.right:
-                queue.append((node.right, level + 1))
-
-        return level
+        if root is None: 
+            return 0 
+        else: 
+            left_height = self.maxDepth(root.left) 
+            right_height = self.maxDepth(root.right) 
+            return max(left_height, right_height) + 1
+        print(root)
+        print(root.right)
+        # return len(root) // 2 + 1
