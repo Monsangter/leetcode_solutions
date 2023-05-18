@@ -1,19 +1,44 @@
 class Solution:
     def isValidSudoku(self, board: List[List[str]]) -> bool:
-        rows = [{} for i in range(9)]
-        columns = [{} for i in range(9)]
-        boxes = [{} for i in range(9)]
 
-        for i in range(9):
-            for j in range(9):
-                num = board[i][j]
-                if num != '.':
-                    box_index = (i // 3 ) * 3 + j // 3
+        # 먼저 한줄씩 찾는다. 중복되면 바로 invalid 해쉬 이용.
+        check = {}
 
-                    rows[i][num] = rows[i].get(num, 0) + 1
-                    columns[j][num] = columns[j].get(num, 0) + 1
-                    boxes[box_index][num] = boxes[box_index].get(num, 0) + 1
+        # 가로 검사.
+        for r in board:
+            for c in range(9):
+                if r[c] in check and r[c] != ".":
+                    return False
+                check[r[c]] = 0
 
-                    if rows[i][num] > 1 or columns[j][num] > 1 or boxes[box_index][num] > 1:
-                        return False         
+            check = {}
+
+        # 세로 검사.
+        for c in range(9):
+            check = {}
+            for r in range(9):
+                if board[r][c] in check and board[r][c] != ".":
+                    return False
+                check[board[r][c]] = 0
+
+        
+        #하위박스 검사.
+        for i in range(3):
+            for j in range(3):
+                check = {}  # 각 서브 박스마다 새로운 check 딕셔너리를 초기화
+                # 3x3 서브 박스 내부의 모든 셀을 순회
+                for x in range(3):
+                    for y in range(3):
+                        value = board[3*i + x][3*j + y]
+                        if value != '.' and value in check:
+                            return False
+                        check[value] = 0
+
+
+
         return True
+
+        # i = 0 ~ 2
+        # [3*i] 3*i 3*i+1 3*i+2
+        # [3*i+1] 3*i 3*i+1 3*i+2
+        # [3*i+2] *i 3*i+1 3*i+2
